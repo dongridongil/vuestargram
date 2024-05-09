@@ -6,9 +6,9 @@
 
         <!-- 필터선택페이지 -->
         <div v-if="step == 1">
-            <div class="upload-image" :style="`background-image:url(${imageUrl})`"></div>
+            <div :class="`${filterSend} upload-image`" :style="`background-image:url(${imageUrl})`"></div>
             <div class="filters">
-                <FilterBox :filter="filter" :imageUrl="imageUrl" v-for="(filter, i) in filterData" :key="filter">
+                <FilterBox :filter="filter" :imageUrl="imageUrl" v-for="filter in filterData" :key="filter">
                     <span>{{ filter }}</span></FilterBox
                 >
             </div>
@@ -16,10 +16,15 @@
 
         <!-- 글작성페이지 -->
         <div v-if="step == 2">
-            <div class="upload-image" :style="`background-image:url(${imageUrl})`"></div>
+            <div :class="`${filterSend} upload-image`" :style="`background-image:url(${imageUrl})`"></div>
             <div class="write">
                 <textarea v-model="writeData" @input="sendWrite" class="write-box">write!</textarea>
             </div>
+        </div>
+
+        <!-- 팔로워 페이지 -->
+        <div v-if="step == 3">
+            <MyPage />
         </div>
     </div>
 </template>
@@ -27,6 +32,8 @@
 <script>
 import Post from './Post.vue';
 import FilterBox from './FilterBox.vue';
+import MyPage from './MyPage.vue';
+
 export default {
     name: 'Container',
     data() {
@@ -60,11 +67,18 @@ export default {
                 'willow',
                 'xpro2',
             ],
+            filterSend: '',
         };
+    },
+    mounted() {
+        this.emitter.on('filterSend', (filter) => {
+            this.filterSend = filter;
+        });
     },
     components: {
         Post: Post,
         FilterBox: FilterBox,
+        MyPage: MyPage,
     },
     methods: {
         sendWrite() {

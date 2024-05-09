@@ -1,14 +1,16 @@
 <template>
-    <Header :step="step" @stepUp="step++" @publish="publish" />
+    <Header :step="step" @follow="step = 3" @stepUp="step++" @publish="publish" />
+
     <Container :imageUrl="imageUrl" :step="step" :Data="Data" @writeData="updateWrite" />
+
     <div class="footer">
         <ul class="footer-button-plus">
             <input @change="upload" type="file" id="file" class="inputfile" />
             <label for="file" class="input-plus">+</label>
         </ul>
     </div>
-
-    <button @click="more">더보기</button>
+    <!-- <p>{{ $store.state.more }}</p> -->
+    <!-- <button @click="$store.dispatch('getData')">더보기 버튼</button> -->
 </template>
 
 <script>
@@ -16,6 +18,7 @@ import Header from './components/Header';
 import Container from './components/Container.vue';
 import Data from './data.js';
 import axios from 'axios';
+import { mapState } from 'vuex';
 
 export default {
     name: 'App',
@@ -25,14 +28,23 @@ export default {
             Data: Data,
             imageUrl: '',
             writeData: '',
+            filterSend: '',
         };
     },
     mounted() {
-        this.emitter.on('작명', (a) => {
-            console.log(a);
+        this.emitter.on('filterSend', (filter) => {
+            this.filterSend = filter;
         });
     },
     components: { Container: Container, Header: Header },
+
+    computed: {
+        // 처음실행하고 값을 간직함 항상 return 이필요함
+        name() {
+            return this.$store.state.name;
+        },
+        ...mapState(['name', 'age', 'likes']),
+    },
 
     methods: {
         updateWrite(data) {
@@ -61,7 +73,7 @@ export default {
                 date: 'May 15',
                 liked: false,
                 content: this.writeData,
-                filter: 'perpetua',
+                filter: this.filterSend,
             };
             this.Data.unshift(mypost);
             this.step = 0;
@@ -107,6 +119,7 @@ ul {
     color: skyblue;
     float: right;
     width: 50px;
+    padding-right: 20px;
     cursor: pointer;
     margin-top: 10px;
 }

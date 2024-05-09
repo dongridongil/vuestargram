@@ -1,16 +1,15 @@
 <template>
-    <div :class="filter + ' filter-item'" :style="`background-image:url(${imageUrl})`">
+    <div @click="fire(filter)" :class="filter + ' filter-item'" :style="`background-image:url(${imageUrl})`">
         <slot></slot>
-        <button @click="fire">버튼</button>
     </div>
 </template>
 <script>
 export default {
     name: 'FilterBox',
     methods: {
-        fire() {
+        fire(filter) {
             //이벤트 발사
-            this.emitter.emit('작명', '데이터');
+            this.emitter.emit('filterSend', filter);
         },
     },
     props: {

@@ -4,9 +4,16 @@
             <div class="profile" :style="{ backgroundImage: `url(${Data.userImage})` }"></div>
             <span class="profile-name">{{ Data.name }}</span>
         </div>
-        <div :class="Data.filter" class="post-body" :style="{ backgroundImage: `url(${Data.postImage})` }"></div>
+        <div
+            @click="$store.commit('likesCount')"
+            :class="Data.filter"
+            class="post-body"
+            :style="{ backgroundImage: `url(${Data.postImage})` }"
+        ></div>
         <div class="post-content">
-            <p>{{ Data.likes }}</p>
+            <div>
+                <p>{{ $store.state.likes }} likes</p>
+            </div>
             <p>
                 <strong>{{ Data.name }}</strong> {{ Data.content }}
             </p>
@@ -18,14 +25,16 @@
 <script>
 export default {
     name: 'Post',
+    data() {
+        return {
+            filterSend: '',
+        };
+    },
     props: {
         Data: Array,
     },
-    methods: {
-        mounted() {
-            console.log('sex', this.Data);
-        },
-    },
+
+    methods: {},
 };
 </script>
 
