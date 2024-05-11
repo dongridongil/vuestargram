@@ -10,7 +10,8 @@ const store = createStore({
             likes: [15, 20, 36],
             likebutton: false,
             more: {},
-            posts: posts
+            posts: posts,
+            count: 0
         }
     },
     mutations: { //state 수정 방법 정의
@@ -48,8 +49,8 @@ const store = createStore({
             })
         }
         ,
-        likePost({ commit }, postId) {
-            commit('incrementLikes', postId)
+        likePost(context, postId) {
+            context.commit('incrementLikes', postId)
         },
         unlikePost({ commit }, postId) {
             commit('decrementLikes', postId)

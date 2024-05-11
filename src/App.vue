@@ -3,14 +3,15 @@
 
     <Container :imageUrl="imageUrl" :step="step" :Data="Data" @writeData="updateWrite" />
 
+    <div class="buttonContainer">
+        <button class="morebutton" @click="more">더보기</button>
+    </div>
     <div class="footer">
         <ul class="footer-button-plus">
             <input @change="upload" type="file" id="file" class="inputfile" />
             <label for="file" class="input-plus">+</label>
         </ul>
     </div>
-    <!-- <p>{{ $store.state.more }}</p> -->
-    <!-- <button @click="$store.dispatch('getData')">더보기 버튼</button> -->
 </template>
 
 <script>
@@ -29,6 +30,7 @@ export default {
             imageUrl: '',
             writeData: '',
             filterSend: '',
+            count: 0,
         };
     },
     mounted() {
@@ -40,9 +42,13 @@ export default {
 
     computed: {
         // 처음실행하고 값을 간직함 항상 return 이필요함
-        name() {
-            return this.$store.state.name;
-        },
+        // name() {
+        //     return this.$store.state.name;
+        // },
+        // age() {
+        //     return this.$store.state.age;
+        // },
+        /// 위에것들을 한번에 불러오는방법 ...mapState
         ...mapState(['name', 'age', 'likes']),
     },
 
@@ -58,10 +64,15 @@ export default {
             this.step++;
         },
         more() {
-            axios.get(`https://codingapple1.github.io/vue/more${this.count}.json`).then((result) => {
-                this.Data.push(result.data);
-                this.count++;
-            });
+            axios
+                .get(`https://codingapple1.github.io/vue/more${this.count}.json`)
+                .then((result) => {
+                    this.Data.push(result.data);
+                    this.count++;
+                })
+                .catch(() => {
+                    alert('마지막 자료 입니다.');
+                });
         },
 
         publish() {
@@ -83,6 +94,26 @@ export default {
 </script>
 
 <style>
+.buttonContainer {
+    text-align: center;
+}
+.morebutton {
+    background-color: #4caf50;
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+.morebutton:hover {
+    background-color: #45a049;
+}
 body {
     margin: 0;
 }

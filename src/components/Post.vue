@@ -38,7 +38,7 @@ export default {
 
     methods: {
         toggleLike() {
-            console.log(this.Data);
+           
             const postId = this.Data.id;
             if (!this.Data.liked) {
                 this.$store.dispatch('likePost', postId);
