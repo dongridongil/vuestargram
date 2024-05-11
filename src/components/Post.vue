@@ -5,14 +5,16 @@
             <span class="profile-name">{{ Data.name }}</span>
         </div>
         <div
-            @click="$store.commit('likesCount')"
+            @click="toggleLike"
             :class="Data.filter"
             class="post-body"
             :style="{ backgroundImage: `url(${Data.postImage})` }"
         ></div>
         <div class="post-content">
             <div>
-                <p>{{ $store.state.likes }} likes</p>
+                <p>
+                    💗 <strong>{{ Data.likes }}</strong>
+                </p>
             </div>
             <p>
                 <strong>{{ Data.name }}</strong> {{ Data.content }}
@@ -34,7 +36,17 @@ export default {
         Data: Array,
     },
 
-    methods: {},
+    methods: {
+        toggleLike() {
+            console.log(this.Data);
+            const postId = this.Data.id;
+            if (!this.Data.liked) {
+                this.$store.dispatch('likePost', postId);
+            } else {
+                this.$store.dispatch('unlikePost', postId);
+            }
+        },
+    },
 };
 </script>
 

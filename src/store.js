@@ -1,14 +1,16 @@
 import axios from 'axios';
 import { createStore } from 'vuex'
+import posts from './data'
 
 const store = createStore({
     state() {
         return {
             name: "kim",
             age: 20,
-            likes: 15,
+            likes: [15, 20, 36],
             likebutton: false,
-            more: {}
+            more: {},
+            posts: posts
         }
     },
     mutations: { //state 수정 방법 정의
@@ -21,17 +23,21 @@ const store = createStore({
         ageCount(state, data) {
             state.age += data;
         },
-        likesCount(state) {
-            if (state.likebutton == false) {
-                state.likes++;
-                state.likebutton = true;
-            } else {
-                state.likes--;
-                state.likebutton = false;
+        incrementLikes(state, postId) {
+            const post = state.posts.find(p => p.id === postId)
+            if (post) {
+                post.likes++;
+                post.liked = true;
+            }
+        },
+        decrementLikes(state, postId) {
+            const post = state.posts.find(p => p.id === postId)
+            if (post) {
+                post.likes--;
+                post.liked = false;
             }
 
-
-        },
+        }
 
     },
     actions: {
@@ -41,7 +47,17 @@ const store = createStore({
                 context.commit('setMore', a.data)
             })
         }
-    }
+        ,
+        likePost({ commit }, postId) {
+            commit('incrementLikes', postId)
+        },
+        unlikePost({ commit }, postId) {
+            commit('decrementLikes', postId)
+
+        }
+    },
+
+
 })
 
 export default store
