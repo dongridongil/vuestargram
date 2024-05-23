@@ -34,11 +34,15 @@ src
 
 ## 웹 화면
 
-### 메인페이지
+## 메인페이지
+
+
 
 ![image](https://github.com/dongridongil/vuestargram/assets/108976641/d6319463-ebe3-4632-b407-dc4fa5c92aa5)
 
-###  글작성시 필터 페이지
+##  글작성시 필터 페이지
+
+
 
 ![image](https://github.com/dongridongil/vuestargram/assets/108976641/628adc02-b7c3-4ef3-bf67-c976945ab956)
 
